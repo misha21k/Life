@@ -34,22 +34,6 @@ False
 import doctest
 
 
-def _make_find_function(alive=True):
-    """Makes function of search alive or dead neighbors"""
-    def find_neighbors(self, settlement):
-        """Finds alive or dead neighbors"""
-        neighbors = set()
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                if i == j == 0:
-                    continue
-                neighbor = Being(self.x + i, self.y + j)
-                if (neighbor not in settlement) ^ alive:
-                    neighbors.add(neighbor)
-        return neighbors
-    return find_neighbors
-
-
 class Being(tuple):
 
     def __new__(cls, x, y):
@@ -68,8 +52,32 @@ class Being(tuple):
 
     __str__ = __repr__
 
-    find_alive_neighbors = _make_find_function(alive=True)
-    find_dead_neighbors = _make_find_function(alive=False)
+    @property
+    def neighbors(self):
+        """All neighbors of being"""
+        neighbors = set()
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == j == 0:
+                    continue
+                neighbors.add(Being(self.x + i, self.y + j))
+        return neighbors
+
+    def find_alive_neighbors(self, settlement):
+        """Finds alive neighbors of being"""
+        neighbors = set()
+        for neighbor in self.neighbors:
+            if neighbor in settlement:
+                neighbors.add(neighbor)
+        return neighbors
+
+    def find_dead_neighbors(self, settlement):
+        """Finds dead neighbors of being"""
+        neighbors = set()
+        for neighbor in self.neighbors:
+            if neighbor not in settlement:
+                neighbors.add(neighbor)
+        return neighbors
 
     def count_alive_neighbors(self, settlement):
         return len(self.find_alive_neighbors(settlement))
@@ -90,6 +98,9 @@ class Settlement:
     def __contains__(self, being):
         return being in self.__beings
 
+    def __iter__(self):
+        return iter(self.__beings)
+
     def __len__(self):
         return len(self.__beings)
 
@@ -106,18 +117,18 @@ class Settlement:
     def dead_neighbors(self):
         """Returns dead neighbors of all beings"""
         dead_neighbors = set()
-        for being in self.__beings:
+        for being in self:
             dead_neighbors |= being.find_dead_neighbors(self)
         return dead_neighbors
 
     def calculate_next_generation(self):
-        """Calculates next configuration of settlement
+        """Calculates next configuration (generation) of settlement
 
         If being has three neighbors, it is born. If being has
         less two neighbors or more three neighbors, it dies
         """
         next_generation = set()
-        for being in self.__beings:
+        for being in self:
             if being.count_alive_neighbors(self) in (2, 3):
                 next_generation.add(being)
         for being in self.dead_neighbors:
