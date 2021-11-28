@@ -1,6 +1,7 @@
 import pygame
 
 import Grid
+from Settlement import Settlement
 
 SIZES = WIDTH, HEIGHT = (1200, 800)
 FPS = 30
@@ -14,6 +15,11 @@ pygame.display.set_caption("Life")
 clock = pygame.time.Clock()
 
 grid = Grid.Grid(x0=X0, y0=Y0, cell=CELL)
+
+settlement = Settlement.Settlement()
+being = Settlement.Being(1, 2)
+settlement.add_being(being)
+
 
 while True:
     screen.fill(pygame.Color('black'))
@@ -37,6 +43,12 @@ while True:
         pygame.draw.line(screen, pygame.Color('dimgray'), (x, 0), (x, height))
     for y in range(grid.y1, height, grid.cell):
         pygame.draw.line(screen, pygame.Color('dimgray'), (0, y), (width, y))
+
+    # draw settlement
+    for being in settlement:
+        xb = grid.x0 + being.x * grid.cell + 1
+        yb = grid.y0 + being.y * grid.cell + 1
+        pygame.draw.rect(screen, pygame.Color('green'), (xb, yb, grid.cell-1, grid.cell-1))
 
     pygame.display.flip()
     clock.tick(FPS)
