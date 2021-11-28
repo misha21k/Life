@@ -41,6 +41,9 @@ class Coordinates:
     def __truediv__(self, other):
         return Coordinates(round(self.x / other), round(self.y / other))
 
+    def __floordiv__(self, other):
+        return Coordinates(int(self.x // other), int(self.y // other))
+
     def __mod__(self, other):
         return Coordinates(self.x % other, self.y % other)
 

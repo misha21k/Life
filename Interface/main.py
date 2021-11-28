@@ -15,11 +15,8 @@ pygame.display.set_caption("Life")
 clock = pygame.time.Clock()
 
 grid = Grid.Grid(x0=X0, y0=Y0, cell=CELL)
-
+pause = True
 settlement = Settlement.Settlement()
-being = Settlement.Being(1, 2)
-settlement.add_being(being)
-
 
 while True:
     screen.fill(pygame.Color('black'))
@@ -32,8 +29,20 @@ while True:
                 grid.increase(*event.pos)  # increase of grid's size
             elif event.button == 5:
                 grid.decrease(*event.pos)  # decrease of grid's size
-        elif event.type == pygame.MOUSEMOTION and event.buttons[0]:
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1 and pause:
+                # add or delete cell (being) on grid
+                being = (Grid.Coordinates(*event.pos) - grid.origin) // grid.cell
+                being = Settlement.Being(being.x, being.y)
+                if being in settlement:
+                    settlement.remove_being(being)
+                else:
+                    settlement.add_being(being)
+        elif event.type == pygame.MOUSEMOTION and event.buttons[2]:
             grid.move(*event.rel)  # move grid by mouse
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                pause = not pause
 
     # get width and height of window
     width, height = screen.get_size()
