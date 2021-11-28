@@ -72,24 +72,29 @@ class Grid:
     >>> g.first
     Coordinates(0, 4)
     """
-    def __init__(self, cell=10, x0=0, y0=0):
+    def __init__(self, x0=None, y0=None, origin=Coordinates(0, 0), cell=10):
         self.cell = cell  # size of cell
-        self.origin = Coordinates(x0, y0)  # origin of coordinates
+        if x0 and y0:
+            self.origin = Coordinates(x0, y0)  # origin of coordinates
+        else:
+            self.origin = origin
 
     @property
     def first(self):
         """Coordinates of crossing of first top and first left line"""
         return self.origin % self.cell
 
-    def increase(self, x_mouse, y_mouse):
+    def increase(self, x_mouse, y_mouse, mouse=None):
         """Increases size of grid"""
-        mouse = Coordinates(x_mouse, y_mouse)
+        if x_mouse and y_mouse:
+            mouse = Coordinates(x_mouse, y_mouse)
         self.cell = round(self.cell * FACTOR)
         self.origin = mouse - FACTOR * (mouse - self.first)
 
-    def decrease(self, x_mouse, y_mouse):
+    def decrease(self, x_mouse=None, y_mouse=None, mouse=None):
         """Decreases size of grid"""
-        mouse = Coordinates(x_mouse, y_mouse)
+        if x_mouse and y_mouse:
+            mouse = Coordinates(x_mouse, y_mouse)
         self.cell = round(self.cell / FACTOR)
         self.origin = mouse - (mouse - self.origin) / FACTOR
 
