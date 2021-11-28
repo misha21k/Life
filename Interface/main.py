@@ -7,7 +7,7 @@ SIZES = WIDTH, HEIGHT = (1200, 800)
 FPS = 30
 UPDATE = 5  # frequency of settlement's update
 
-CELL = 100  # size of cell
+CELL = 40  # size of cell
 X0, Y0 = 0, 0  # origin of coordinates
 
 pygame.init()
@@ -45,7 +45,9 @@ while True:
             grid.move(*event.rel)  # move grid by mouse
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                pause = not pause
+                pause = not pause  # set game in pause
+            elif event.key == pygame.K_BACKSPACE and pause:
+                settlement.clear()  # clear grid
 
     # next generation for settlement
     if not pause and count == UPDATE:
