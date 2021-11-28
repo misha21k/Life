@@ -23,9 +23,11 @@ while True:
             exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 4:
-                grid.increase(*event.pos)
+                grid.increase(*event.pos)  # increase of grid's size
             elif event.button == 5:
-                grid.decrease(*event.pos)
+                grid.decrease(*event.pos)  # decrease of grid's size
+        elif event.type == pygame.MOUSEMOTION and event.buttons[0]:
+            grid.move(*event.rel)  # move grid by mouse
 
     # get width and height of window
     width, height = screen.get_size()
