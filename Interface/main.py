@@ -46,9 +46,9 @@ while True:
 
     # draw settlement
     for being in settlement:
-        xb = grid.x0 + being.x * grid.cell + 1
-        yb = grid.y0 + being.y * grid.cell + 1
-        pygame.draw.rect(screen, pygame.Color('green'), (xb, yb, grid.cell-1, grid.cell-1))
+        being = Grid.Coordinates(being.x, being.y)
+        being = grid.origin + being * grid.cell + Grid.Coordinates(1, 1)
+        pygame.draw.rect(screen, pygame.Color('green'), (being.x, being.y, grid.cell-1, grid.cell-1))
 
     pygame.display.flip()
     clock.tick(FPS)
