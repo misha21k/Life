@@ -84,6 +84,22 @@ class Grid:
         """Coordinates of crossing of first top and first left line"""
         return self.origin % self.cell
 
+    @property
+    def x1(self):
+        return self.first.x
+
+    @property
+    def y1(self):
+        return self.first.y
+
+    @property
+    def x0(self):
+        return self.origin.x
+
+    @property
+    def y0(self):
+        return self.origin.y
+
     def increase(self, x_mouse, y_mouse, mouse=None):
         """Increases size of grid"""
         if x_mouse and y_mouse:
