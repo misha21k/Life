@@ -31,8 +31,6 @@ False
 0
 """
 
-import doctest
-
 
 class Being(tuple):
 
@@ -138,4 +136,5 @@ class Settlement:
 
 
 if __name__ == '__main__':
+    import doctest
     doctest.testmod()
