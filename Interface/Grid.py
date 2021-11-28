@@ -105,7 +105,7 @@ class Grid:
         if x_mouse and y_mouse:
             mouse = Coordinates(x_mouse, y_mouse)
         self.cell = round(self.cell * FACTOR)
-        self.origin = mouse - FACTOR * (mouse - self.first)
+        self.origin = mouse - FACTOR * (mouse - self.origin)
 
     def decrease(self, x_mouse=None, y_mouse=None, mouse=None):
         """Decreases size of grid"""
