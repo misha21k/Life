@@ -90,7 +90,7 @@ class Settlement:
         self.__beings = set()
 
     @property
-    def being(self):
+    def beings(self):
         return self.__beings
 
     def __contains__(self, being):

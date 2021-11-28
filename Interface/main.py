@@ -5,6 +5,7 @@ from Settlement import Settlement
 
 SIZES = WIDTH, HEIGHT = (1200, 800)
 FPS = 30
+UPDATE = 5  # frequency of settlement's update
 
 CELL = 100  # size of cell
 X0, Y0 = 0, 0  # origin of coordinates
@@ -17,9 +18,11 @@ clock = pygame.time.Clock()
 grid = Grid.Grid(x0=X0, y0=Y0, cell=CELL)
 pause = True
 settlement = Settlement.Settlement()
+count = 0
 
 while True:
     screen.fill(pygame.Color('black'))
+    count = 0 if count == UPDATE else count + 1
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -31,7 +34,7 @@ while True:
                 grid.decrease(*event.pos)  # decrease of grid's size
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1 and pause:
-                # add or delete cell (being) on grid
+                # add or delete cell (being) on grid by mouse
                 being = (Grid.Coordinates(*event.pos) - grid.origin) // grid.cell
                 being = Settlement.Being(being.x, being.y)
                 if being in settlement:
@@ -43,6 +46,10 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 pause = not pause
+
+    # next generation for settlement
+    if not pause and count == UPDATE:
+        settlement.calculate_next_generation()
 
     # get width and height of window
     width, height = screen.get_size()
