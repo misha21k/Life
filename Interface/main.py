@@ -24,7 +24,7 @@ def edit_path(path):
     return path
 
 
-ICON = pygame.image.load(edit_path("../image/grid.png"))
+ICON = pygame.image.load(edit_path("image/grid.png"))
 
 pygame.init()
 screen = pygame.display.set_mode(SIZES, pygame.RESIZABLE)
@@ -43,7 +43,7 @@ while True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            exit()
+            sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 4:
                 grid.increase(*event.pos)  # increase of grid's size
