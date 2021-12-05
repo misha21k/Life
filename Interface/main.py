@@ -69,6 +69,8 @@ while True:
     # next generation for settlement
     if not pause and count == UPDATE:
         settlement.calculate_next_generation()
+        if not settlement.beings:  # stop game if settlement is empty
+            pause = True
 
     # get width and height of window
     width, height = screen.get_size()
