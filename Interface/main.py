@@ -3,25 +3,29 @@ import pygame
 import Grid
 from Settlement import Settlement
 
-SIZES = WIDTH, HEIGHT = (1200, 800)
+SIZES = WIDTH, HEIGHT = (1200, 800)  # sizes of window
 FPS = 30
 UPDATE = 5  # frequency of settlement's update
 
 CELL = 40  # size of cell
 X0, Y0 = 0, 0  # origin of coordinates
 
+BLACK = pygame.Color('black')
+DIMGRAY = pygame.Color('dimgray')
+GREEN = pygame.Color('green')
+
 pygame.init()
 screen = pygame.display.set_mode(SIZES, pygame.RESIZABLE)
-pygame.display.set_caption("Life")
+pygame.display.set_caption("Game Life")
 clock = pygame.time.Clock()
 
 grid = Grid.Grid(x0=X0, y0=Y0, cell=CELL)
-pause = True
-settlement = Settlement.Settlement()
+pause = True  # to set play on pause
+settlement = Settlement.Settlement()  # empty settlement
 count = 0
 
 while True:
-    screen.fill(pygame.Color('black'))
+    screen.fill(BLACK)
     count = 0 if count == UPDATE else count + 1
 
     for event in pygame.event.get():
@@ -58,15 +62,15 @@ while True:
 
     # draw grid
     for x in range(grid.x1, width, grid.cell):
-        pygame.draw.line(screen, pygame.Color('dimgray'), (x, 0), (x, height))
+        pygame.draw.line(screen, DIMGRAY, (x, 0), (x, height))
     for y in range(grid.y1, height, grid.cell):
-        pygame.draw.line(screen, pygame.Color('dimgray'), (0, y), (width, y))
+        pygame.draw.line(screen, DIMGRAY, (0, y), (width, y))
 
     # draw settlement
     for being in settlement:
         being = Grid.Coordinates(being.x, being.y)
         being = grid.origin + being * grid.cell + Grid.Coordinates(1, 1)
-        pygame.draw.rect(screen, pygame.Color('green'), (being.x, being.y, grid.cell-1, grid.cell-1))
+        pygame.draw.rect(screen, GREEN, (being.x, being.y, grid.cell-1, grid.cell-1))
 
     pygame.display.flip()
     clock.tick(FPS)

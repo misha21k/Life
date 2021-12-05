@@ -33,7 +33,7 @@ False
 
 
 class Being(tuple):
-
+    """Properties of being(cell)"""
     def __new__(cls, x, y):
         return super().__new__(cls, (x, y))
 
@@ -85,7 +85,7 @@ class Being(tuple):
 
 
 class Settlement:
-
+    """Lots of beings"""
     def __init__(self):
         self.__beings = set()
 
