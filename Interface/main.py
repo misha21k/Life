@@ -1,4 +1,6 @@
 import pygame
+import sys
+import os
 
 import Grid
 from Settlement import Settlement
@@ -14,9 +16,20 @@ BLACK = pygame.Color('black')
 DIMGRAY = pygame.Color('dimgray')
 GREEN = pygame.Color('green')
 
+
+def edit_path(path):
+    """Edits of file's path"""
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, path)
+    return path
+
+
+ICON = pygame.image.load(edit_path("../image/grid.png"))
+
 pygame.init()
 screen = pygame.display.set_mode(SIZES, pygame.RESIZABLE)
 pygame.display.set_caption("Game Life")
+pygame.display.set_icon(ICON)
 clock = pygame.time.Clock()
 
 grid = Grid.Grid(x0=X0, y0=Y0, cell=CELL)
@@ -70,7 +83,7 @@ while True:
     for being in settlement:
         being = Grid.Coordinates(being.x, being.y)
         being = grid.origin + being * grid.cell + Grid.Coordinates(1, 1)
-        pygame.draw.rect(screen, GREEN, (being.x, being.y, grid.cell-1, grid.cell-1))
+        pygame.draw.rect(screen, GREEN, (being.x, being.y, grid.cell - 1, grid.cell - 1))
 
     pygame.display.flip()
     clock.tick(FPS)
