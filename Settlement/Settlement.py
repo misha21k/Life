@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 >>> settlement = Settlement()
 >>> settlement.add_being(Being(1, 0))
